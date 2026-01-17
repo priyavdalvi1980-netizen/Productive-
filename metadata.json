@@ -1,0 +1,7 @@
+{
+  "name": "Productive♾️",
+  "description": "A high-performance productivity dashboard featuring task management, focus timers, and Gemini-powered productivity insights with a modern glassmorphism UI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

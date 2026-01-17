@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productive ∞</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color-1: #0052FF; /* Royal Blue */
+            --brand-color-2: #7000FF;
+            --brand-color-3: #FF00D6;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto; /* Enable vertical scrolling */
+            background-color: #020410;
+            transition: background-color 0.5s ease, background-image 0.5s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: white;
+            -webkit-font-smoothing: antialiased;
+            /* Background image is managed via App.tsx for theming */
+            background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=3540');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        #root {
+            min-height: 100%;
+            background: rgba(0, 5, 15, 0.3);
+            transition: background 0.5s ease;
+        }
+
+        /* Increased transparency for columns/panels as requested (0.6 opacity) */
+        .glass-panel {
+            background: rgba(8, 10, 20, 0.6); 
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Standard transparent card */
+        .glass-card {
+            background: rgba(20, 25, 35, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Solid/Opaque card for Completed tasks section (Reduced transparency) */
+        .glass-card-solid {
+            background: rgba(15, 17, 26, 0.98);
+            backdrop-filter: blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--brand-color-1), var(--brand-color-2), var(--brand-color-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, var(--brand-color-1), var(--brand-color-2), var(--brand-color-3));
+        }
+
+        .font-mono-nums {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes welcomeIn {
+            0% { opacity: 0; transform: scale(0.98) translateY(10px); filter: blur(8px); letter-spacing: 0.5em; }
+            40% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); letter-spacing: 0.4em; }
+            80% { opacity: 1; transform: scale(1.01) translateY(0); filter: blur(0); letter-spacing: 0.45em; }
+            100% { opacity: 0; transform: scale(1.02) translateY(-5px); filter: blur(10px); letter-spacing: 0.5em; }
+        }
+        .splash-welcome {
+            animation: welcomeIn 1.6s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes brandReveal {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(15px); letter-spacing: -0.05em; }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); letter-spacing: -0.02em; }
+        }
+        .splash-brand {
+            animation: brandReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "zustand": "https://esm.sh/zustand@^5.0.10",
+    "zustand/": "https://esm.sh/zustand@^5.0.10/",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+</body>
+</html>
