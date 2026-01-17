@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# This handles the Single Page Application (SPA) routing
+# It ensures that refreshing pages like /tasks doesn't give a 404 error
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

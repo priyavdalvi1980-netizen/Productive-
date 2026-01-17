@@ -10,7 +10,7 @@ export const getProductivityInsight = async (tasks: any[]) => {
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash', 
+      model: 'gemini-3-flash-preview', 
       contents: prompt,
     });
     return response.text;
@@ -22,7 +22,7 @@ export const getProductivityInsight = async (tasks: any[]) => {
 
 export const chatWithAssistant = async (message: string, context: any[]) => {
   const chat = ai.chats.create({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     config: {
       systemInstruction: 'You are a high-performance productivity coach. Be concise, encouraging, and data-driven.',
     }
