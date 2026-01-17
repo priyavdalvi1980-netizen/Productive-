@@ -70,8 +70,9 @@ interface ProductivityState {
 
   // User Auth
   userName: string | null;
+  userEmail: string | null;
   isAuthenticated: boolean;
-  login: (name: string) => void;
+  login: (name: string, email?: string) => void;
   logout: () => void;
 }
 
@@ -189,8 +190,9 @@ export const useStore = create<ProductivityState>()(
       setEditingTaskId: (id) => set({ editingTaskId: id }),
 
       userName: null,
+      userEmail: null,
       isAuthenticated: false,
-      login: (name) => set({ userName: name, isAuthenticated: true }),
+      login: (name, email) => set({ userName: name, userEmail: email, isAuthenticated: true }),
       logout: () => set({ isAuthenticated: false }),
     }),
     { name: 'productive-v7-storage' }

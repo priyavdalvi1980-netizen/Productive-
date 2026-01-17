@@ -12,113 +12,97 @@ import CompletedPage from './pages/CompletedPage.tsx';
 import AuthPage from './pages/AuthPage.tsx';
 
 const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
-  const [phase, setPhase] = useState<number>(0);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [bootText, setBootText] = useState("INITIALIZING NEURAL INTERFACE...");
 
   useEffect(() => {
-    // Cinematic Sequence: Accelerated for performance
-    const sequence = [
-      { t: 50, p: 1 },
-      { t: 600, p: 2 },
-      { t: 1200, p: 3 },
-      { t: 1500, p: 4 },
-      { t: 2200, p: 5 },
-      { t: 2500, fn: onFinish }
+    const bootSequence = [
+      { p: 10, t: "LOADING CORE MODULES..." },
+      { p: 30, t: "SYNCHRONIZING DATABASES..." },
+      { p: 50, t: "ESTABLISHING SECURE LINK..." },
+      { p: 75, t: "OPTIMIZING NEURAL PATHWAYS..." },
+      { p: 90, t: "SYSTEM READY." },
+      { p: 100, t: "WELCOME USER." }
     ];
 
-    const timeouts = sequence.map(s => setTimeout(() => {
-      if (s.fn) s.fn();
-      else setPhase(s.p);
-    }, s.t));
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      if (currentStep < bootSequence.length) {
+        setLoadingProgress(bootSequence[currentStep].p);
+        setBootText(bootSequence[currentStep].t);
+        currentStep++;
+      } else {
+        clearInterval(interval);
+        setTimeout(onFinish, 800);
+      }
+    }, 400);
 
-    return () => timeouts.forEach(clearTimeout);
+    return () => clearInterval(interval);
   }, [onFinish]);
 
-  // Solar Gradient Colors: Orange, Pink, Purple
-  const solarColors = ['#FF8C42', '#F04393', '#8D46E7'];
-  
-  const textGradient = {
-    backgroundImage: `linear-gradient(135deg, ${solarColors[0]} 0%, ${solarColors[1]} 50%, ${solarColors[2]} 100%)`,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    filter: 'drop-shadow(0 0 30px rgba(240, 67, 147, 0.6))'
-  };
-
   return (
-    <div className={`fixed inset-0 z-[1000] flex items-center justify-center overflow-hidden bg-black transition-all duration-700 ease-in-out
-      ${phase === 5 ? 'opacity-0 scale-110 pointer-events-none' : 'opacity-100'}`}
-    >
-        {/* Background Void */}
-        <div className="absolute inset-0 bg-[#020202]" />
+    <div className="fixed inset-0 z-[1000] bg-black text-white flex flex-col items-center justify-center overflow-hidden font-mono">
+      {/* Background Grid */}
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none bg-[linear-gradient(rgba(0,255,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,0,0.1)_1px,transparent_1px)] bg-[size:40px_40px] [perspective:1000px] [transform-style:preserve-3d] [transform:rotateX(60deg)_scale(2)] origin-top animate-pan-grid"></div>
 
-        {/* Dynamic Gas/Nebula Effect */}
-        <div className={`absolute inset-0 transition-opacity duration-1000 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] rounded-full mix-blend-screen filter blur-[80px] md:blur-[120px] opacity-50 animate-gas-swirl-1
-                bg-[radial-gradient(circle,rgba(255,140,66,0.6)_0%,transparent_70%)] transition-all duration-1000
-                ${phase >= 3 ? 'scale-[2.5] opacity-0' : phase >= 1 ? 'scale-100' : 'scale-0'}`} 
-            />
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35vw] h-[35vw] rounded-full mix-blend-screen filter blur-[70px] md:blur-[100px] opacity-50 animate-gas-swirl-2
-                bg-[radial-gradient(circle,rgba(240,67,147,0.6)_0%,transparent_70%)] transition-all duration-1000 delay-100
-                ${phase >= 3 ? 'scale-[2.5] opacity-0' : phase >= 1 ? 'scale-100' : 'scale-0'}`} 
-            />
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45vw] h-[45vw] rounded-full mix-blend-screen filter blur-[90px] md:blur-[130px] opacity-50 animate-gas-swirl-3
-                bg-[radial-gradient(circle,rgba(141,70,231,0.6)_0%,transparent_70%)] transition-all duration-1000 delay-200
-                ${phase >= 3 ? 'scale-[2.5] opacity-0' : phase >= 1 ? 'scale-100' : 'scale-0'}`} 
-            />
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center gap-8 w-full max-w-md px-6">
+        {/* Animated Logo */}
+        <div className="relative w-32 h-32 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-cyan-500 border-r-purple-500 animate-[spin_2s_linear_infinite]" />
+            <div className="absolute inset-2 rounded-full border-2 border-transparent border-b-pink-500 border-l-blue-500 animate-[spin_3s_linear_infinite_reverse]" />
+            <div className="absolute inset-0 flex items-center justify-center">
+                 <span className="text-6xl font-black text-white animate-pulse">∞</span>
+            </div>
+            <div className="absolute inset-0 bg-cyan-500/20 blur-xl rounded-full animate-pulse"></div>
         </div>
 
-        {/* Content Container */}
-        <div className={`relative z-10 flex flex-col items-center justify-center transition-all duration-700
-            ${phase >= 4 ? 'scale-100' : 'scale-95'}`}>
-            
-            <div className="relative mb-6 md:mb-10">
-                <div className={`text-9xl md:text-[12rem] transition-all duration-700 cubic-bezier(0.34, 1.56, 0.64, 1) relative z-20
-                    ${phase >= 2 ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-50 blur-xl'}
-                    ${phase === 3 ? 'animate-pulse-fast' : ''}`}
-                >
-                    <span style={textGradient} className="block leading-none">∞</span>
-                </div>
+        {/* Title with Glitch Effect */}
+        <h1 className="text-4xl md:text-6xl font-black tracking-tighter relative group">
+          <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-white to-purple-500">
+            PRODUCTIVE
+          </span>
+          <span className="absolute top-0 left-0 -ml-1 text-red-500 opacity-70 animate-glitch-1 hidden group-hover:block">PRODUCTIVE</span>
+          <span className="absolute top-0 left-0 ml-1 text-blue-500 opacity-70 animate-glitch-2 hidden group-hover:block">PRODUCTIVE</span>
+        </h1>
 
-                <div className={`absolute inset-0 flex items-center justify-center pointer-events-none z-10`}>
-                     <div className={`w-[140%] h-[140%] border border-[#FF8C42]/20 rounded-full animate-[spin_8s_linear_infinite] transition-all duration-700 ${phase >= 3 ? 'opacity-100 scale-150' : 'opacity-0 scale-50'}`} style={{ borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' }}/>
-                     <div className={`w-[160%] h-[160%] border border-[#F04393]/10 rounded-full animate-[spin_10s_linear_infinite_reverse] transition-all duration-700 delay-100 ${phase >= 3 ? 'opacity-100 scale-125' : 'opacity-0 scale-50'}`} style={{ borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' }}/>
-                </div>
+        {/* Progress Bar */}
+        <div className="w-full space-y-2">
+            <div className="flex justify-between text-[10px] uppercase tracking-widest text-cyan-500/80">
+                <span>{bootText}</span>
+                <span>{loadingProgress}%</span>
             </div>
-
-            <div className="relative overflow-hidden p-2">
-                <h1 className={`text-5xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text transition-all duration-700 transform
-                    ${phase >= 4 ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}
-                    style={textGradient}
-                >
-                    PRODUCTIVE
-                </h1>
-                <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-200%] 
-                    ${phase >= 4 ? 'animate-shine' : ''}`} 
+            <div className="w-full h-1 bg-gray-900 rounded-full overflow-hidden border border-white/10">
+                <div 
+                    className="h-full bg-gradient-to-r from-cyan-500 to-purple-600 shadow-[0_0_10px_rgba(6,182,212,0.8)] transition-all duration-300 ease-out"
+                    style={{ width: `${loadingProgress}%` }}
                 />
             </div>
-
-             <div className={`mt-8 flex items-center gap-6 transition-all duration-700 delay-200
-                ${phase >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="h-[1px] w-8 md:w-16 bg-gradient-to-r from-transparent to-[#FF8C42]" />
-                <span className="text-[10px] md:text-xs font-mono text-white/30 tracking-[0.8em] uppercase">
-                  Neural Engine Active
-                </span>
-                <div className="h-[1px] w-8 md:w-16 bg-gradient-to-l from-transparent to-[#8D46E7]" />
-             </div>
-
         </div>
+      </div>
 
-        <style>{`
-            @keyframes gasSwirl1 { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); } 50% { transform: translate(-45%, -55%) rotate(180deg) scale(1.1); } 100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); } }
-            @keyframes gasSwirl2 { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(1.1); } 50% { transform: translate(-55%, -45%) rotate(-180deg) scale(1); } 100% { transform: translate(-50%, -50%) rotate(-360deg) scale(1.1); } }
-            @keyframes gasSwirl3 { 0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.9); } 50% { transform: translate(-50%, -50%) rotate(90deg) scale(1.2); } 100% { transform: translate(-50%, -50%) rotate(0deg) scale(0.9); } }
-            @keyframes pulseFast { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.1); filter: brightness(1.5); text-shadow: 0 0 50px rgba(255, 140, 66, 0.8); } }
-            @keyframes shine { 0% { transform: translateX(-200%) skewX(-12deg); } 100% { transform: translateX(200%) skewX(-12deg); } }
-            .animate-gas-swirl-1 { animation: gasSwirl1 15s infinite linear; }
-            .animate-gas-swirl-2 { animation: gasSwirl2 20s infinite linear; }
-            .animate-gas-swirl-3 { animation: gasSwirl3 18s infinite linear; }
-            .animate-pulse-fast { animation: pulseFast 0.6s ease-out; }
-            .animate-shine { animation: shine 2s ease-in-out infinite; animation-delay: 0.5s; }
-        `}</style>
+      <style>{`
+        @keyframes pan-grid {
+            0% { transform: rotateX(60deg) scale(2) translateY(0); }
+            100% { transform: rotateX(60deg) scale(2) translateY(40px); }
+        }
+        @keyframes glitch-1 {
+          0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 2px); }
+          20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -2px); }
+          40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+          60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+          80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 2px); }
+          100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, -2px); }
+        }
+        @keyframes glitch-2 {
+          0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); }
+          20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
+          40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, -2px); }
+          60% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
+          80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, -2px); }
+          100% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 2px); }
+        }
+      `}</style>
     </div>
   );
 };
@@ -180,7 +164,7 @@ const Navigation = () => {
             <div className="w-px h-8 md:w-8 md:h-px bg-white/10 mx-1 md:my-1 flex-shrink-0" />
             <div className="relative group px-1 flex-shrink-0">
                 <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-gradient-to-br from-[#FF8C42] to-[#F04393] p-[2px] shadow-lg cursor-default transition-transform hover:scale-105">
-                    <div className="w-full h-full rounded-full bg-black/90 flex items-center justify-center">
+                    <div className="w-full h-full rounded-full bg-black/90 flex items-center justify-center overflow-hidden">
                         <span className="text-sm font-black text-white">{userName.charAt(0).toUpperCase()}</span>
                     </div>
                 </div>
